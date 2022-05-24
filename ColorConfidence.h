@@ -78,9 +78,11 @@ cv::Scalar maxwolf8852::confidence2Color(float confidence)
     if (!__internal_maxwolf8852::_currentParams._boundsSet)
 		throw std::logic_error("bounds must be set first!");
 
-	if (confidence > __internal_maxwolf8852::_currentParams._bounds.second
-		|| confidence < __internal_maxwolf8852::_currentParams._bounds.first)
-		throw std::out_of_range("confidence out of bounds!");
+    if (confidence > __internal_maxwolf8852::_currentParams._bounds.second)
+        confidence = __internal_maxwolf8852::_currentParams._bounds.second;
+
+    if (confidence < __internal_maxwolf8852::_currentParams._bounds.first)
+        confidence = __internal_maxwolf8852::_currentParams._bounds.first;
 
 	/*
 	*            (current_conf - low_conf) * (high_H - low_H)
