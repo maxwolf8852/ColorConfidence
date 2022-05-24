@@ -9,6 +9,7 @@
 * maxwolf8852::setBounds(0.5f, 1.0f);
 * auto color = maxwolf8852::confidence2Color(0.678f);
 * cv::Mat image(480, 640, CV_8UC3, color);
+* cv::cvtColor(image,image, cv::COLOR_BGR2RGB);
 * cv::imshow("conf_color", image);
 * cv::waitKey();
 * 
@@ -43,7 +44,7 @@ namespace __internal_maxwolf8852 {
 	static struct __params {
 		std::pair<float, float> _bounds;
 		bool _boundsSet = 0;
-		std::pair<uint8_t, uint8_t> _H = std::make_pair<uint8_t, uint8_t>(0, 80);
+        std::pair<uint8_t, uint8_t> _H = std::make_pair<uint8_t, uint8_t>(0, 70);
 		uint8_t _S = 255;
 		uint8_t _V = 255;
 	} _currentParams;
@@ -94,6 +95,8 @@ cv::Scalar maxwolf8852::confidence2Color(float confidence)
 		(__internal_maxwolf8852::_currentParams._H.second - __internal_maxwolf8852::_currentParams._H.first) /
 		(__internal_maxwolf8852::_currentParams._bounds.second - __internal_maxwolf8852::_currentParams._bounds.first) + __internal_maxwolf8852::_currentParams._H.first;
 
+    std::cout<<(int)_curH<<std::endl;
+
 
     cv::Scalar_<uint8_t> output = cv::Scalar_<uint8_t>(_curH, __internal_maxwolf8852::_currentParams._S
                                     , __internal_maxwolf8852::_currentParams._V);
@@ -102,7 +105,7 @@ cv::Scalar maxwolf8852::confidence2Color(float confidence)
 
     cv::Mat colorMat(1,1, CV_8UC3, output);
 
-    cv::cvtColor(colorMat, colorMat, cv::COLOR_HSV2BGR);
+    cv::cvtColor(colorMat, colorMat, cv::COLOR_HSV2RGB);
 
     auto data = (uint8_t*)colorMat.data;
 
